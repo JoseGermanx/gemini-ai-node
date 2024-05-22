@@ -5,6 +5,7 @@ const express = require("express")
 const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'));
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -20,6 +21,11 @@ async function run(prompt) {
   const text = response.text();
   return text;
 }
+
+app.get("/", (req, res) => {
+  res.render("index.html")
+})
+
 
 app.post("/chat", async (req, res) => {
   const { prompt } = req.body;
